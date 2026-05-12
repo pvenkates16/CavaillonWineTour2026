@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mas des Oliviers — Guest Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --terracotta: #C4581F;
+    --terracotta-light: #E8845A;
+    --cream: #FAF6EE;
+    --warm-white: #FFFDF9;
+    --bark: #2C1F0E;
+    --stone: #8C7B68;
+    --stone-light: #EDE5D8;
+    --stone-mid: #D4C8B6;
+    --sage: #5D7A5A;
+    --warning-bg: #FDF3E7;
+    --warning-border: #E8A04A;
+    --warning-text: #7A4A10;
+    --success: #4A7A5A;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--bark);
+    min-height: 100vh;
+    position: relative;
+  }
+  .bg-slide {
+    position: fixed;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    opacity: 0;
+    z-index: 0;
+    pointer-events: none;
+    transition: opacity 2s ease-in-out;
+  }
+  .bg-slide.visible {
+    opacity: 0.18;
+  }
+  .hero, .tabs-wrap, .content {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Header */
+  .hero {
+    background: var(--bark);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 16px;
+    gap: 10px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--cream);
+    white-space: nowrap;
+  }
+  .hero-sub {
+    font-size: 10px;
+    color: var(--stone);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .hero-arrival {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    background: rgba(196,88,31,0.25);
+    border: 1px solid rgba(196,88,31,0.4);
+    border-radius: 20px;
+    padding: 3px 10px;
+    font-size: 10px;
+    color: var(--terracotta-light);
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+
+  /* Nav tabs */
+  .tabs-wrap {
+    background: var(--bark);
+    border-top: 1px solid rgba(255,255,255,0.07);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 6px 16px 8px;
+  }
+  .tabs-wrap::-webkit-scrollbar { display: none; }
+  .tabs {
+    display: flex;
+    gap: 6px;
+    white-space: nowrap;
+  }
+  .tab {
+    padding: 5px 13px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.15);
+    font-size: 12px;
+    cursor: pointer;
+    background: transparent;
+    color: rgba(255,255,255,0.55);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .tab.active {
+    background: var(--terracotta);
+    border-color: var(--terracotta);
+    color: white;
+    font-weight: 500;
+  }
+
+  /* Content */
+  .content {
+    padding: 20px 16px 40px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* Cards */
+  .card {
+    background: var(--warm-white);
+    border: 1px solid var(--stone-mid);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+  }
+
+  .card-label {
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--stone);
+    margin-bottom: 10px;
+  }
+
+  /* Contact rows */
+  .contact-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--stone-light);
+    gap: 8px;
+  }
+  .contact-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .contact-name { font-size: 13px; color: var(--stone); flex: 1; }
+  .contact-val {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--bark);
+    text-align: right;
+  }
+  .contact-val a { color: var(--terracotta); text-decoration: none; }
+
+  /* Code pill */
+  .pill {
+    display: inline-block;
+    background: var(--stone-light);
+    border: 1px solid var(--stone-mid);
+    border-radius: 5px;
+    padding: 1px 7px;
+    font-size: 12.5px;
+    font-family: 'Courier New', monospace;
+    font-weight: 500;
+    color: var(--bark);
+  }
+
+  /* Warning */
+  .warn {
+    background: var(--warning-bg);
+    border: 1px solid var(--warning-border);
+    border-radius: 8px;
+    padding: 10px 13px;
+    font-size: 12.5px;
+    color: var(--warning-text);
+    line-height: 1.5;
+    margin-bottom: 12px;
+  }
+  .warn strong { font-weight: 500; }
+
+  /* Checklist */
+  .checklist { list-style: none; }
+  .checklist li {
+    display: flex;
+    gap: 11px;
+    align-items: flex-start;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--stone-light);
+    font-size: 13px;
+    line-height: 1.5;
+    cursor: pointer;
+  }
+  .checklist li:last-child { border-bottom: none; padding-bottom: 0; }
+  .cb {
+    width: 18px; height: 18px;
+    min-width: 18px;
+    border: 1.5px solid var(--stone-mid);
+    border-radius: 4px;
+    margin-top: 1px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+    background: white;
+  }
+  .cb.done {
+    background: var(--success);
+    border-color: var(--success);
+  }
+  .cb.done::after {
+    content: '✓';
+    font-size: 11px;
+    color: white;
+    font-weight: 500;
+  }
+  .item-text { flex: 1; color: var(--bark); }
+  .item-text.done { color: var(--stone); text-decoration: line-through; }
+
+  /* Section heading inside panels */
+  .sec-head {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    color: var(--bark);
+    margin-bottom: 12px;
+    margin-top: 4px;
+  }
+
+  /* Alarm steps */
+  .alarm-step {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--stone-light);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .alarm-step:last-child { border-bottom: none; padding-bottom: 0; }
+  .step-num {
+    min-width: 24px; height: 24px;
+    border-radius: 50%;
+    background: var(--stone-light);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--terracotta);
+    margin-top: 1px;
+    flex-shrink: 0;
+  }
+
+  /* Bin table */
+  .bin-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  .bin-table th {
+    text-align: left;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--stone);
+    padding: 0 0 8px;
+    border-bottom: 1px solid var(--stone-mid);
+    font-weight: 500;
+  }
+  .bin-table td {
+    padding: 7px 6px 7px 0;
+    border-bottom: 1px solid var(--stone-light);
+    vertical-align: top;
+    line-height: 1.4;
+  }
+  .bin-table tr:last-child td { border-bottom: none; }
+
+  /* Fine table */
+  .fine-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .fine-table td {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--stone-light);
+    vertical-align: top;
+    line-height: 1.4;
+  }
+  .fine-table tr:last-child td { border-bottom: none; }
+  .fine-amt { font-weight: 500; color: #A32D2D; text-align: right; padding-left: 12px; white-space: nowrap; }
+
+  /* Footer */
+  .credit {
+    position: fixed;
+    bottom: 14px;
+    left: 16px;
+    font-size: 13px;
+    color: var(--cream);
+    background: rgba(44, 31, 14, 0.55);
+    padding: 4px 10px;
+    border-radius: 20px;
+    z-index: 998;
+    pointer-events: none;
+    letter-spacing: 0.03em;
+    font-weight: 500;
+    backdrop-filter: blur(4px);
+  }
+
+  .footer {
+    text-align: center;
+    margin-top: 32px;
+    font-size: 11px;
+    color: var(--stone);
+    line-height: 1.7;
+  }
+  .footer .olive { font-size: 18px; display: block; margin-bottom: 4px; }
+</style>
+</head>
+<body>
+
+<div class="bg-slide" id="bg0"></div>
+<div class="bg-slide" id="bg1"></div>
+<div class="bg-slide" id="bg2"></div>
+<div class="bg-slide" id="bg3"></div>
+<div class="bg-slide" id="bg4"></div>
+<div class="hero">
+  <div>
+    <h1>Mas des Oliviers</h1>
+    <div class="hero-sub">396 chemin des Fourches, 84300 Cavaillon</div>
+  </div>
+  <div class="hero-arrival">✦ June 6th, 4 PM</div>
+</div>
+
+<div class="tabs-wrap">
+  <div class="tabs">
+    <button class="tab active" onclick="show('contacts',this)">Contacts</button>
+    <button class="tab" onclick="show('arrival',this)">Arrival</button>
+    <button class="tab" onclick="show('daily',this)">Daily</button>
+    <button class="tab" onclick="show('alarm',this)">Alarm</button>
+    <button class="tab" onclick="show('departure',this)">Departure</button>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- CONTACTS -->
+  <div class="panel active" id="tab-contacts">
+    <div class="card">
+      <div class="card-label">Host team</div>
+      <div class="contact-row"><span class="contact-name">Isabelle (host)</span><span class="contact-val"><a href="tel:+33680307918">06 80 30 79 18</a></span></div>
+      <div class="contact-row"><span class="contact-name">Ollivier (host)</span><span class="contact-val"><a href="tel:+33614251075">06 14 25 10 75</a></span></div>
+      <div class="contact-row"><span class="contact-name">Nancy (welcome)</span><span class="contact-val"><a href="tel:+33615650497">06 15 65 04 97</a></span></div>
+      <div class="contact-row"><span class="contact-name">Property landline</span><span class="contact-val"><a href="tel:+33952686528">09 52 68 65 28</a></span></div>
+    </div>
+    <div class="card">
+      <div class="card-label">Technical</div>
+      <div class="contact-row"><span class="contact-name">Remote monitoring (SOTEL)</span><span class="contact-val"><a href="tel:+33821616100">0821 61 61 00</a></span></div>
+      <div class="contact-row"><span class="contact-name">Alarm maintenance (VULLO)</span><span class="contact-val"><a href="tel:+33490711424">04 90 71 14 24</a></span></div>
+    </div>
+    <div class="warn">⚠ Always contact <strong>Isabelle</strong> before calling SOTEL for any alarm issue.</div>
+    <div class="card">
+      <div class="card-label">Gate &amp; garage codes</div>
+      <div class="contact-row"><span class="contact-name">Remote — open gate</span><span class="contact-val">Button <span class="pill">1</span></span></div>
+      <div class="contact-row"><span class="contact-name">Outside keypad</span><span class="contact-val"><span class="pill">1212A</span></span></div>
+      <div class="contact-row"><span class="contact-name">Inside keypad</span><span class="contact-val"><span class="pill">1010A</span></span></div>
+    </div>
+    <div class="card">
+      <div class="card-label">WiFi</div>
+      <div class="contact-row"><span class="contact-name">Network</span><span class="contact-val"><span class="pill">Isa</span> <span class="pill">isaext</span> <span class="pill">Isa1_bureau</span></span></div>
+      <div class="contact-row"><span class="contact-name">Password</span><span class="contact-val"><span class="pill">1 04 90 71 51 32</span></span></div>
+    </div>
+  </div>
+
+  <!-- ARRIVAL -->
+  <div class="panel" id="tab-arrival">
+    <p class="sec-head">Arrival Checklist</p>
+    <div class="card">
+      <div class="card-label">Friday June 6th, 4:00 PM</div>
+      <ul class="checklist">
+        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Arrive at 4:00 PM — Nancy will welcome you</span></li>
+        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Pay €2,000 security deposit via the Tyllt link</span></li>
+        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Receive alarm codes and remote fob from Nancy</span></li>
+        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Walkthrough of the house with Nancy (~1 hour — essential!)</span></li>
+        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Confirm bed configuration — 3 rooms can split 180cm → 2×90cm (let Isabelle know in advance)</span></li>
+        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Connect to WiFi</span></li>
+      </ul>
+    </div>
+    <div class="warn">📍 Address: <strong>396 chemin des Fourches, 84300 Cavaillon</strong><br>Geolocation: <a href="https://maps.app.goo.gl/A9k8dMHQPVtviXrw6" style="color:var(--warning-text);font-weight:500;">maps.app.goo.gl/A9k8dMHQPVtviXrw6</a><br>At the gate, look for <strong>"5, Les Puits Neufs"</strong> on the perimeter wall — this is a landmark marker, not the postal address.</div>
+  </div>
+
+  <!-- DAILY -->
+  <div class="panel" id="tab-daily">
+    <p class="sec-head">Daily Checklist</p>
+    <div class="card">
+      <div class="card-label">Every day</div>
+      <ul class="checklist">
+        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Empty the two pool skimmers at least once or twice (mandatory for filtration &amp; heating)</span></li>
+        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Skim pool with landing net; scrub any green algae traces immediately</span></li>
+        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Close pool cover when leaving if children are present</span></li>
+        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Activate external alarm at bedtime (key in back kitchen)</span></li>
+        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Put outdoor cushions under pool awning if rain is forecast</span></li>
+        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Shower before swimming — no sunscreen in the pool</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-label">Hot weather — air conditioning</div>
+      <ul class="checklist">
+        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Close shutters and windows during the day</span></li>
+        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Open them in the evening/night if A/C is off</span></li>
+        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Minimum A/C setting: 22°C — keep corridor doors closed when running</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-label">Bins &amp; recycling</div>
+      <table class="bin-table">
+        <thead><tr><th>Bin</th><th>Put out</th><th>Collected</th></tr></thead>
+        <tbody>
+          <tr><td>Household waste (brown)</td><td>Wed evening</td><td>Thu morning</td></tr>
+          <tr><td>Yellow bin (plastic, cardboard, cans)</td><td>Mon evening</td><td>Tue morning</td></tr>
+          <tr><td>Glass &amp; newspapers</td><td colspan="2">Drop at containers near Garage Peugeot, Cavaillon</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="warn">🔧 Pool builder visits <strong>Wednesday mornings at 8:00 AM</strong>. Secure any dogs before this time (and on Saturdays).</div>
+  </div>
+
+  <!-- ALARM -->
+  <div class="panel" id="tab-alarm">
+    <p class="sec-head">Alarm Instructions</p>
+    <div class="card">
+      <div class="card-label">Leaving the house — all of you</div>
+      <div class="alarm-step"><span class="step-num">1</span><span>Make sure all cars and people have left the property</span></div>
+      <div class="alarm-step"><span class="step-num">2</span><span>Press <strong>button 2</strong> on the remote → blue LED lights up → you can leave (gate auto-closes in 50 sec)</span></div>
+      <div class="alarm-step"><span class="step-num">3</span><span>On return: press <strong>button 1</strong> first (blue LED disappears), then press <strong>button 2</strong> to open the gate</span></div>
+    </div>
+    <div class="warn">⚠ Opening the gate before disabling the alarm will trigger it. You have <strong>60 seconds</strong> to cancel.</div>
+    <div class="card">
+      <div class="card-label">Going to bed — mandatory every night</div>
+      <div class="alarm-step"><span class="step-num">1</span><span>Find the key box in the <strong>back kitchen</strong></span></div>
+      <div class="alarm-step"><span class="step-num">2</span><span>Insert key for at least <strong>2 seconds without turning</strong> — green light comes on, then remove key</span></div>
+      <div class="alarm-step"><span class="step-num">3</span><span>Morning: same procedure to switch off (green light goes out)</span></div>
+      <div class="alarm-step"><span class="step-num">i</span><span>A flashing red light is normal — ignore it, it clears on its own</span></div>
+    </div>
+    <div class="card">
+      <div class="card-label">Remote monitoring</div>
+      <div style="font-size:13px;line-height:1.6;">If a wrong move triggers a SOTEL call (phone in the living room), give them your alarm code (provided on arrival). <strong>Call Isabelle first</strong> if unsure. Unannounced SOTEL visit costs <strong>€79</strong>.</div>
+    </div>
+  </div>
+
+  <!-- DEPARTURE -->
+  <div class="panel" id="tab-departure">
+    <p class="sec-head">Departure Checklist</p>
+    <div class="warn">🌿 Gardener arrives <strong>8:00 AM</strong>. Housekeepers at <strong>10:00 AM</strong>.<br>All personal belongings out of rooms by <strong>10:00 AM</strong>.</div>
+    <div class="card">
+      <div class="card-label">Before leaving</div>
+      <ul class="checklist">
+        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Personal belongings removed from all rooms by 10:00 AM</span></li>
+        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">House clean and tidy; all decor and furniture returned to original positions</span></li>
+        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Kitchen cleaned — dishes, pots, pans, and utensils washed</span></li>
+        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Dishwasher emptied</span></li>
+        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">All bins emptied into the correct outdoor containers</span></li>
+        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">BBQ / gas plancha fully cleaned (grill + removable interior parts)</span></li>
+        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Outdoor cushions stored under the pool awning</span></li>
+        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Alarm set before leaving</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-label">Potential charges</div>
+      <table class="fine-table">
+        <tr><td>House not left clean/tidy</td><td class="fine-amt">€150</td></tr>
+        <tr><td>BBQ/plancha not cleaned</td><td class="fine-amt">€50</td></tr>
+        <tr><td>SOTEL unannounced visit</td><td class="fine-amt">€79</td></tr>
+        <tr><td>Gate motor damage (pushing doors by hand)</td><td class="fine-amt">~€1,000</td></tr>
+      </table>
+    </div>
+    <div class="warn" style="font-size:12px;">💡 Tip: request BBQ/plancha cleaning by the housekeeper — tell Isabelle on arrival and they'll come at 9:00 AM on departure day.</div>
+  </div>
+
+  <div class="footer">
+    <span class="olive">🫒</span>
+    Enjoy your stay — sun, pool, naps, and Provence await.<br>
+    <a href="http://masduluberon.free.fr" style="color:var(--stone);">masduluberon.free.fr</a>
+  </div>
+
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+function tick(li) {
+  const cb = li.querySelector('.cb');
+  const txt = li.querySelector('.item-text');
+  cb.classList.toggle('done');
+  txt.classList.toggle('done');
+}
+</script>
+
+<!-- Chatbot -->
+<style>
+  .chat-fab {
+    position: fixed;
+    bottom: 20px; right: 20px;
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    background: var(--terracotta);
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(196,88,31,0.45);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 1000;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .chat-fab:hover { transform: scale(1.08); box-shadow: 0 6px 20px rgba(196,88,31,0.55); }
+  .chat-fab svg { width: 24px; height: 24px; fill: white; }
+  .chat-fab .close-icon { display: none; }
+  .chat-fab.open .chat-icon { display: none; }
+  .chat-fab.open .close-icon { display: block; }
+
+  .chat-window {
+    position: fixed;
+    bottom: 82px; right: 16px;
+    width: calc(100vw - 32px);
+    max-width: 360px;
+    height: 480px;
+    background: var(--warm-white);
+    border: 1px solid var(--stone-mid);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(44,31,14,0.18);
+    display: none;
+    flex-direction: column;
+    z-index: 999;
+    overflow: hidden;
+  }
+  .chat-window.open { display: flex; }
+
+  .chat-header {
+    background: var(--bark);
+    padding: 12px 16px;
+    display: flex; align-items: center; gap: 10px;
+    flex-shrink: 0;
+  }
+  .chat-avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--terracotta);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; flex-shrink: 0;
+  }
+  .chat-header-text { flex: 1; }
+  .chat-header-name { font-size: 13px; font-weight: 500; color: var(--cream); }
+  .chat-header-sub { font-size: 10px; color: var(--stone); margin-top: 1px; }
+
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 14px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .msg {
+    max-width: 85%;
+    padding: 9px 12px;
+    border-radius: 12px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .msg.bot {
+    background: var(--stone-light);
+    color: var(--bark);
+    border-bottom-left-radius: 3px;
+    align-self: flex-start;
+  }
+  .msg.user {
+    background: var(--terracotta);
+    color: white;
+    border-bottom-right-radius: 3px;
+    align-self: flex-end;
+  }
+  .msg.thinking {
+    background: var(--stone-light);
+    color: var(--stone);
+    align-self: flex-start;
+    font-style: italic;
+  }
+
+  .chat-input-row {
+    display: flex;
+    gap: 8px;
+    padding: 10px 12px;
+    border-top: 1px solid var(--stone-light);
+    flex-shrink: 0;
+    background: white;
+  }
+  .chat-input {
+    flex: 1;
+    border: 1px solid var(--stone-mid);
+    border-radius: 20px;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    outline: none;
+    background: var(--cream);
+    color: var(--bark);
+  }
+  .chat-input:focus { border-color: var(--terracotta); }
+  .chat-send {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--terracotta);
+    border: none;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: opacity 0.2s;
+  }
+  .chat-send:disabled { opacity: 0.4; cursor: default; }
+  .chat-send svg { width: 16px; height: 16px; fill: white; }
+</style>
+
+<button class="chat-fab" id="chatFab" onclick="toggleChat()">
+  <svg class="chat-icon" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
+  <svg class="close-icon" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+</button>
+
+<div class="chat-window" id="chatWindow">
+  <div class="chat-header">
+    <div class="chat-avatar">🫒</div>
+    <div class="chat-header-text">
+      <div class="chat-header-name">Mas des Oliviers</div>
+      <div class="chat-header-sub">Ask me anything about your stay</div>
+    </div>
+  </div>
+  <div class="chat-messages" id="chatMessages">
+    <div class="msg bot">Bonjour! 🌿 I'm here to help with anything about your stay at the Mas. Ask me about the alarm, pool, bins, checkout — anything!</div>
+  </div>
+  <div class="chat-input-row">
+    <input class="chat-input" id="chatInput" placeholder="Ask a question…" onkeydown="if(event.key==='Enter')sendMsg()">
+    <button class="chat-send" id="chatSend" onclick="sendMsg()">
+      <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+const SYSTEM = `You are a friendly, concise assistant for guests staying at Mas des Oliviers, a holiday rental in Cavaillon, Provence, France. Answer only questions about the property and stay. Be warm but brief — 2-3 sentences max unless more detail is truly needed. Use the following information:
+
+CONTACTS:
+- Isabelle (host): 06 80 30 79 18
+- Ollivier (host): 06 14 25 10 75
+- Nancy (welcome on arrival): 06 15 65 04 97
+- Property landline: 09 52 68 65 28
+- Remote monitoring SOTEL: 0821 61 61 00 (always call Isabelle first)
+- Alarm maintenance VULLO: 04 90 71 14 24
+
+ARRIVAL:
+- June 6th at 4:00 PM, welcomed by Nancy
+- Security deposit €2,000 via Tyllt link on arrival
+- The official address is 396 chemin des Fourches, 84300 Cavaillon — use this for GPS/maps
+- Geolocation link: https://maps.app.goo.gl/A9k8dMHQPVtviXrw6
+- When you arrive at the gate, look for "5, Les Puits Neufs" on the perimeter wall — this is just a landmark marker to help you spot the entrance, NOT the postal address
+- WiFi: network Isa / isaext / Isa1_bureau, password: 1 04 90 71 51 32
+- 3 rooms can split 180cm beds into 2×90cm — confirm preference with Isabelle in advance
+- Beer pump compatible with 5L BEETENDER kegs; Nespresso and Senseo coffee machines available
+- Condiments, oil, vinegar and basic groceries are left for guests
+
+GATE & CODES:
+- Remote control button 1 = open gate
+- Outside keypad code: 1212A
+- Inside keypad code: 1010A
+- Gate closes automatically and quickly — NEVER push doors with hands when automatic mode is on (breaks motor, ~€1,000 repair)
+- Do not park in front of the sensor cells between the awning and the gate
+
+ALARM - LEAVING THE HOUSE:
+- Press button 2 on remote after everyone has left — blue LED lights up — 50 second delay for gate to close
+- On return: press button 1 first (blue LED disappears), THEN press button 2 to open gate
+- If gate opened before disarming: 60 seconds to cancel alarm
+- Alarm code given on arrival — needed if SOTEL calls
+
+ALARM - BEDTIME (mandatory every night):
+- Key box is in the back kitchen
+- Insert key for at least 2 seconds WITHOUT turning — green light comes on — remove key
+- Morning: same procedure to switch off
+- Flashing red light = normal, ignore it
+
+REMOTE MONITORING:
+- Company: SOTEL (formerly AGS), tel: 0821 61 61 00
+- If alarm triggers, they call the living room phone — give them the alarm code
+- Unannounced visit costs €79 — call Isabelle first to avoid this
+- Technical problems: VULLO 04 90 71 14 24 (contact Isabelle first)
+
+GARAGE DOORS:
+- Door 1: outside code 1212A
+- Door 2: opens from inside
+- Two switches inside close both doors
+
+POOL:
+- Empty two skimmers 1-2 times daily (mandatory)
+- Skim with landing net; remove green algae immediately
+- Shower before swimming — no sunscreen in pool (damages liner)
+- Pool cover: magnetic on awning side, hold key rotated during opening/closing
+- Close cover when away if children present
+- Pool builder visits Wednesday mornings at 8 AM (routine check)
+- Do not force anything stuck in the curtain box — call Isabelle
+- Outdoor games and pool toys in the pool house safe (left by previous guests, use at own risk)
+
+LIGHTING:
+- Plane trees, fountain, island: remote control pointed at borehole room (SW of terrace)
+- Garland and south terrace: switch left of kitchen door to terrace
+
+BINS:
+- Household waste (brown containers): put out Wednesday evening, collected Thursday morning
+- Yellow bin (plastic, cardboard, cans): put out Monday evening, collected Tuesday morning
+- Glass and newspapers: drop at containers near Garage Peugeot in Cavaillon
+
+HOT WEATHER / AIR CONDITIONING:
+- All 5 bedrooms are air-conditioned
+- Minimum temperature: 22°C
+- Close shutters and windows during the day
+- Open in evening/night if not using A/C
+- Keep corridor doors closed when A/C running
+- La Romantique room: press Menu, wheel to MODE, then JUDGMENT to turn off
+
+HOUSE RULES:
+- Rental responsible person must be at least 25 years old
+- No parties; respect neighbours' quiet especially after 10 PM
+- Indoor and outdoor alarm mandatory when leaving and at night
+- Pool skimmers must be emptied daily
+
+KITCHEN:
+- Stone worktop is porous — wipe wine, coffee, fruit, acid spills immediately; clean with black soap (provided); no bleach
+- Dishwasher: use liquid gel provided; top up rinse aid and salt (under sink) if lights come on; programs on inside top of door
+- Dishwasher has a covered rack as the third top rack
+
+BILLIARDS:
+- Adults only, or children accompanied by adult
+- Do not move the table (professionally levelled)
+
+DEPARTURE (Saturday):
+- Gardener arrives 8:00 AM, housekeepers at 10:00 AM
+- All personal belongings out of rooms by 10:00 AM
+- Return house clean and tidy, all furniture and decor back in original positions
+- Kitchen cleaned including all dishes, pots, pans, utensils
+- Dishwasher emptied
+- All bins emptied into correct containers
+- BBQ/gas plancha fully cleaned (grill + removable parts) or request housekeeper service on arrival (they come at 9 AM on departure day, extra charge)
+- Alarm set before leaving
+- Dogs must be secured on Wednesday mornings at 8 AM and Saturdays at 8 AM
+
+FINES:
+- House not left clean/tidy: €150
+- BBQ/plancha not cleaned: €50
+- SOTEL unannounced visit: €79
+- Gate motor damage: ~€1,000
+
+INFORMATION & ACTIVITIES:
+- Host website: masduluberon.free.fr
+- Tourist office: destinationluberon.com
+- Isabelle shares activity updates on Facebook: "le mas des oliviers"
+
+
+INDIAN / DESI RESTAURANTS:
+The Luberon and Cavaillon are not well-served for Indian/Pakistani food — it's very French and Provençal territory. However, here are the options:
+
+IN CAVAILLON (right on your doorstep):
+- Kassia Cheese Naan (96 Cours Gambetta, Cavaillon, tel: 06 18 31 84 10 / 06 84 99 57 03): Indian-inspired street food spot — the only desi option in Cavaillon itself. Specialises in cheese naans, butter chicken bowls, and fusion fast food. Rated 4.3–4.5★. Open daily approx 11am–11pm. Delivery available via Uber Eats. Good for a casual naan fix but not a full sit-down Indian restaurant experience.
+
+IN AVIGNON (~45 min drive, well worth it for a proper Indian meal):
+- Taj Mahal (2 Rue Mignard, Avignon): One of the top-rated Indian restaurants in the region — 4.5–4.7★ with 86+ reviews. Halal. Loved for cheese naans, biryani, vindaloo, lassi and dhal. Takeaway also available. Good value.
+- Punjab Restaurant (95 Rue Carreterie, Avignon): Authentic Punjabi cuisine, open Mon–Sat 11am–11:30pm. Well reviewed.
+- Le Kashmir / Kashmir Village (Avignon): Indian restaurant in the city centre, mixed reviews but popular with locals.
+- New Bollywood (Avignon): Indian/Pakistani, decent reviews.
+- Palais du Maharaja (1 Rue Grande-Fusterie, Avignon, tel: 04 90 86 61 94): Indo-Pakistani cuisine, known for cheese naans and kebabs. Cosy atmosphere.
+
+SLIGHTLY FURTHER AFIELD:
+- Namaste Fusion Food & Chill Club (1340 Av. du Partage des Eaux, L'Isle-sur-la-Sorgue, ~20 min): Indian-fusion lounge restaurant, popular and well reviewed.
+- La Villa du Kashmir (L'Isle-sur-la-Sorgue, ~20 min): Indian restaurant, 3.4★, mixed reviews.
+- Taj Mahal Le Pontet (41 Av. Théophile Delorme, Le Pontet, ~45 min): 4.5★, highly recommended, good value Indian/Asian.
+
+HONEST ADVICE: For a proper, satisfying desi meal, Avignon is your best bet. The Taj Mahal on Rue Mignard is consistently the most praised Indian restaurant in the wider area. Kassia Cheese Naan in Cavaillon is a decent quick option for naans and butter chicken on a lazy evening without driving far.
+
+OTHER ASIAN DINING OPTIONS:
+
+IN CAVAILLON (local options):
+- Garden Sushi (189 Cours Léon Gambetta, Cavaillon): The main sushi/Japanese spot in town. 4.1★ with 160+ reviews. Fresh sushi, makis, sashimi, poke bowls, California rolls, Japanese gyoza, miso soup and hot dishes. Casual, affordable (€15–25), modern and relaxed atmosphere. Dine in or takeout. Praised especially for fresh sashimi and value for money. Note: the chef works alone so takeout/pre-ordering online avoids waits. Budget menus from around €11–16.
+- Kaly Sushi Cavaillon: Another sushi spot in town, 4.3★ with 65 reviews — slightly better rated than Garden Sushi. Worth checking out.
+- Mu Restaurant (50 Cours Gambetta, Cavaillon, tel: 04 90 72 82 07): Japanese fusion restaurant in a zen setting with a cocktail bar. Combines Japanese flavours with South American spice and French technique. More of a sit-down experience with cocktails. One of the more original dining options in town.
+- Le Sao (Cavaillon): Vietnamese/Asian restaurant, 4.1★ with 110 reviews — a solid local option.
+- Nem Wok / Saïgon Wok (formerly Le Saïgon Wok, Route de Robion, Cavaillon): Vietnamese and Asian buffet restaurant — all-you-can-eat format with wok dishes, grilled meats, nems, spring rolls, sushi, maki, fried noodles, Cantonese rice, samosas. Family-friendly and very affordable. Open 6 days a week, takeout and click-and-collect available.
+- Sushi Sakura (Cavaillon): Another sushi option in town — eat in, terrace, takeout or delivery, open 7 days a week.
+- Chez An (Cavaillon): 4.6★ with 45 reviews on TripAdvisor — praised for very good food at low prices with friendly staff. Chinese and Asian cuisine.
+- La Pagode (Cavaillon): Asian/Thai restaurant in town, a local staple.
+
+IN L'ISLE-SUR-LA-SORGUE (~20 min):
+- Namaste Fusion Food & Chill Club (1340 Av. du Partage des Eaux): Indian-fusion but also covers broader Asian flavours. Lounge atmosphere, well reviewed.
+- La Villa du Kashmir: Indian restaurant, mixed reviews.
+
+IN AVIGNON (~45 min, much wider choice):
+- Croq' Nem le Tai: Vietnamese, 4.2★ with 122 reviews — very well regarded.
+- Pitaya Thai Street Food: Thai street food chain, 15 reviews, popular.
+- Chinois Wok: All-you-can-eat Chinese/Japanese buffet, 3.6★ with 105 reviews — good for a large group on a budget.
+- Various other Chinese, Vietnamese and Japanese options throughout the city centre.
+
+ABOUT CAVAILLON:
+- Cavaillon is a commune in Vaucluse, Provence-Alpes-Côte d'Azur, population ~26,000
+- Situated in the Durance Valley at the foot of the Luberon mountains
+- Famous worldwide for its Cavaillon melons — a local icon, available May–September
+- Historic city with Gallo-Roman roots: the 1st-century triumphal arch and 12th-century Cathedral Saint-Véran are must-sees
+- The Colline Saint-Jacques with its chapel offers great views over the town and valley
+- Cavaillon is the western gateway to the Luberon valley
+- Market day: Monday morning in the town centre — one of the best Provençal markets in the region
+
+ABOUT THE LUBERON:
+- A stunning massif in central Provence, 600 sq km, max elevation 1,256m
+- Part of the Parc Naturel Régional du Luberon — protected natural park
+- Famous for its perched villages, lavender fields, vineyards, olive trees, and ochre cliffs
+- Made famous internationally by Peter Mayle's book "A Year in Provence" (set in Ménerbes)
+- The film "A Good Year" (2006) by Ridley Scott was filmed in the region
+- Known as "The Golden Triangle": Gordes, Bonnieux, and Ménerbes are the top villages
+- Rich biodiversity: 1,500 plant species, 17,000 insect species, 341 vertebrate species
+
+NEARBY VILLAGES (distances approx. from Cavaillon):
+- Gordes: ~25 min — stunning hilltop village, often called the most beautiful in France
+- Roussillon: ~30 min — famous for ochre cliffs and colourful buildings
+- Ménerbes: ~20 min — Peter Mayle's village, atmospheric medieval hilltop town
+- Bonnieux: ~25 min — beautiful village on the border of Petit and Grand Luberon
+- Lourmarin: ~35 min — charming village, Friday morning market, Château de Lourmarin
+- L'Isle-sur-la-Sorgue: ~20 min — "the Venice of Provence", famous for antiques markets
+- Oppède-le-Vieux: ~20 min — dramatic ruined hilltop village
+- Lacoste: ~25 min — home of the Marquis de Sade's castle
+- Apt: ~40 min — market town, Saturday morning market
+- Avignon: ~45 min — the Papal Palace, famous Pont d'Avignon, city ramparts
+- Aix-en-Provence: ~50 min — elegant city, Cézanne country, great market
+- Marseille: ~1 hr — France's second city, Vieux Port, Calanques
+
+LUBERON MARKETS (weekly):
+- Cavaillon: Monday morning
+- Coustellet: Sunday morning (also organic market Sunday evenings in summer)
+- Gordes: Tuesday morning
+- Lourmarin: Friday morning
+- Apt: Saturday morning (one of the best in the Luberon)
+- Bonnieux: Friday morning
+- Ménerbes: Thursday morning
+
+LUBERON WINE:
+- The Luberon is an AOC/AOP wine region producing reds, whites and rosés
+- Main grape varieties: Syrah, Grenache Noir, Mourvèdre for reds; Grenache blanc, Roussanne, Vermentino for whites
+- Wine quality has improved significantly — now considered just below the great Rhône wines
+- Tastings are generally free; some estates charge a small fee
+
+RECOMMENDED LUBERON VINEYARDS:
+- Domaine de la Citadelle, Ménerbes (Route de Cavaillon, 04 90 72 41 58): Iconic estate with a famous corkscrew museum (5€), botanical garden, and organic wines. Highly recommended. Free tasting. Open May–Oct daily 10am–12:30pm and 2–7pm.
+- Château Fontvert, Lourmarin (15 Chemin de Pierrouret, 04 90 68 XX XX): Family estate, organic and biodynamic, award-winning reds. Right by Lourmarin — combine with the Friday market.
+- Château de Sannes: Historic 1603 chateau with stunning formal garden, windmill, and spring-fed pool. Top-rated with 4.7★. Organic and biodynamic wines.
+- Château la Canorgue, Bonnieux (Route du Pont Julien, 04 90 75 81 01): Organic estate near the Roman Pont Julien bridge — combine the two visits.
+- Château Constantin-Chevalier, Lourmarin (04 90 68 38 99): Living estate, summer events including picnics and vineyard walks. Authentic Provençal atmosphere.
+- Aureto (Vignobles Coquillade), Goult (60A Chemin des Lièvres): Elegant winery with refined wines, local products tasting room. Open Apr–Sept daily 10am–7pm.
+- Mas des Infermières, near Oppède: Owned by filmmaker Ridley Scott. Modern yet rustic tasting room, immersive experience.
+- Domaine de la Royère, Oppède (375 Route de la Sénancole, 04 90 XX XX XX): Organic AOP Luberon wines plus olive oil museum. Open Mon–Sat 9am–6pm.
+- Domaine de Fontenille, Lauris: 18th-century luxury estate with hotel, two restaurants, spa, and 30+ hectares of vineyards — ideal for a full leisure day.
+- For top Rhône wines beyond the Luberon: head to Châteauneuf-du-Pape (~1hr), Gigondas, or Vacqueyras.
+
+RESTAURANTS IN CAVAILLON:
+- Maison Prévôt (92 Place Léon Gambetta, maisonprevot.com): THE destination restaurant. Chef Jean-Jacques Prévôt runs a legendary gastronomic table. Famous for the Melon Menu (served May–Sept) and the "Mac Prévôt" — foie gras burger with melon ketchup. Lunch €25–110, dinner €35–110. Open Tue–Sat 12:00–13:30 & 19:30–21:30, Sunday lunch by appointment. Book well ahead.
+- Jeannette: Highly rated local favourite, popular for French cuisine with terrace. Consistently praised on TheFork and TripAdvisor.
+- Le Côté Jardin: Popular bistro with terrace, good for French cuisine. Well regarded locally.
+- Le Panier des Chefs: Local favourite for traditional French cooking with Provençal touches.
+- Le Bouchon Lyonnais: Traditional French bistro with terrace, dog-friendly, good for hearty French classics.
+- Café Fleurs: Mediterranean cuisine, romantic atmosphere, open Sundays.
+- L'Auberge de Cheval Blanc: Romantic setting, terrace, open Sundays.
+- Ô Bistrot des Halles: Good bistro near the market halls.
+- La Cuisine du Marché Provençal: Market-fresh Provençal cooking.
+
+THINGS TO DO IN THE LUBERON:
+- Lavender: Peak blooming late June–mid July. Best fields around Valensole plateau (1hr) and Sault (1.5hrs)
+- Ochre Trail, Roussillon: Walk through dramatic red and yellow ochre cliffs (30 min from Cavaillon)
+- Colorado Provençal, Rustrel: Mini Grand Canyon in ochre — spectacular (1hr)
+- Pont Julien: Ancient Roman bridge near Bonnieux, free, beautiful for photos
+- Hiking: Extensive trails throughout the Luberon Park — ask at the Cavaillon tourist office
+- Cycling: The Luberon is famous for cycling — route maps at destinationluberon.com
+- L'Isle-sur-la-Sorgue: Antiques capital of France — huge antiques markets on weekends, beautiful canals
+- Fontaine-de-Vaucluse: The mysterious spring source of the Sorgue river — dramatic cliff setting (30 min)
+- Via Ferrata de Cavaillon: Rock climbing route on the cliffs above town
+- Gordes Village and the Sénanque Abbey: 12th-century abbey surrounded by lavender (in season)`;
+
+let history = [];
+let isLoading = false;
+
+function toggleChat() {
+  const fab = document.getElementById('chatFab');
+  const win = document.getElementById('chatWindow');
+  fab.classList.toggle('open');
+  win.classList.toggle('open');
+  if (win.classList.contains('open')) {
+    document.getElementById('chatInput').focus();
+  }
+}
+
+function addMsg(text, role) {
+  const msgs = document.getElementById('chatMessages');
+  const div = document.createElement('div');
+  div.className = 'msg ' + role;
+  div.textContent = text;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+  return div;
+}
+
+async function sendMsg() {
+  const input = document.getElementById('chatInput');
+  const send = document.getElementById('chatSend');
+  const text = input.value.trim();
+  if (!text || isLoading) return;
+
+  input.value = '';
+  isLoading = true;
+  send.disabled = true;
+
+  addMsg(text, 'user');
+  history.push({ role: 'user', content: text });
+
+  const thinking = addMsg('Thinking…', 'thinking');
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: SYSTEM,
+        messages: history
+      })
+    });
+    const data = await res.json();
+    const reply = data.content.map(b => b.text || '').join('');
+    thinking.remove();
+    addMsg(reply, 'bot');
+    history.push({ role: 'assistant', content: reply });
+  } catch(e) {
+    thinking.remove();
+    addMsg('Sorry, something went wrong. Please try again.', 'bot');
+  }
+
+  isLoading = false;
+  send.disabled = false;
+  input.focus();
+}
+</script>
+
+
+<script>
+// 5 free Unsplash photos: Luberon/Provence landscape, lavender, Gordes, vineyard, ochre
+const bgPhotos = [
+  // Luberon landscape — confirmed Luberon tag on Unsplash
+  'https://images.unsplash.com/photo-1710171369790-28b65f1b5975?auto=format&fit=crop&w=1200&q=70',
+  // Lavender field, Valensole, Provence — Johnny Africa, Unsplash (photo-7N7hlzH_dNM)
+  'https://images.unsplash.com/photo-1499002238440-d264edd596ec?auto=format&fit=crop&w=1200&q=70',
+  // Gordes, Provence — Artur Aldyrkhanov, Unsplash (confirmed Gordes, France caption)
+  'https://images.unsplash.com/photo-1530276371169-6vv00wgdeNQ?auto=format&fit=crop&w=1200&q=70',
+  // Luberon village hillside — Philippe Gras, Unsplash (confirmed Lurs, Luberon)
+  'https://images.unsplash.com/photo-1597984471177-9f01e33fe7f2?auto=format&fit=crop&w=1200&q=70',
+  // Provence lavender — Thomas Despeyroux, Unsplash (confirmed Valensole, Provence)
+  'https://images.unsplash.com/photo-1599940824399-b87987ceb72a?auto=format&fit=crop&w=1200&q=70'
+];
+
+// Preload and set backgrounds
+bgPhotos.forEach((url, i) => {
+  const el = document.getElementById('bg' + i);
+  el.style.backgroundImage = "url('" + url + "')";
+});
+
+let current = 0;
+document.getElementById('bg0').classList.add('visible');
+
+setInterval(() => {
+  document.getElementById('bg' + current).classList.remove('visible');
+  current = (current + 1) % bgPhotos.length;
+  document.getElementById('bg' + current).classList.add('visible');
+}, 6000);
+</script>
+
+<div class="credit">© Prabhu 2025</div>
+</body>
+</html>
