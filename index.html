@@ -501,18 +501,18 @@
 <script>
 // ── BACKGROUND SLIDESHOW ──
 const bgPhotos = [
-  // Provençal mas / stone farmhouse exterior
-  'https://images.unsplash.com/photo-1523531294919-4bcd7c65e216?auto=format&fit=crop&w=1600&q=80',
-  // Luberon village hillside landscape
-  'https://images.unsplash.com/photo-1597984471177-9f01e33fe7f2?auto=format&fit=crop&w=1600&q=80',
-  // Private pool with sun loungers, Provence
-  'https://images.unsplash.com/photo-1572553914650-a80d37a5aa53?auto=format&fit=crop&w=1600&q=80',
+  // Property: under the plane trees
+  '20200620_163146.jpg',
+  // Provence countryside, warm golden light
+  'https://images.unsplash.com/photo-1534258936925-c58bed479fcb?auto=format&fit=crop&w=1600&q=80',
+  // Property: the pool
+  '20190831_094611.jpg',
   // Lavender field, Valensole
   'https://images.unsplash.com/photo-1599940824399-b87987ceb72a?auto=format&fit=crop&w=1600&q=80',
-  // Rustic Provençal terrace / outdoor dining
-  'https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&fit=crop&w=1600&q=80',
-  // Gordes / Luberon ochre stone village at dusk
-  'https://images.unsplash.com/photo-1580889240888-2a6f9e9b4c52?auto=format&fit=crop&w=1600&q=80',
+  // Property: the kitchen
+  '20200620_164842.jpg',
+  // Property: salon with fireplace
+  '20201017_153427.jpg',
 ];
 
 bgPhotos.forEach((url, i) => {
@@ -527,14 +527,33 @@ bgPhotos.forEach((_, i) => {
   dotsWrap.appendChild(d);
 });
 
+// Give each slide an explicit z-index so the incoming one fades in
+// ON TOP of the outgoing one — no dark gap between them.
 let cur = 0;
-document.getElementById('bg0').classList.add('visible');
+const total = bgPhotos.length;
+const slides = bgPhotos.map((_, i) => document.getElementById('bg' + i));
+
+slides.forEach((s, i) => { s.style.zIndex = i === 0 ? 2 : 1; });
+slides[0].classList.add('visible');
+
 setInterval(() => {
-  document.getElementById('bg' + cur).classList.remove('visible');
-  document.getElementById('dot' + cur).classList.remove('active');
-  cur = (cur + 1) % bgPhotos.length;
-  document.getElementById('bg' + cur).classList.add('visible');
-  document.getElementById('dot' + cur).classList.add('active');
+  const next = (cur + 1) % total;
+
+  // Bring next slide to front and fade it in
+  slides[next].style.zIndex = 3;
+  slides[next].classList.add('visible');
+
+  // After transition completes, reset z-indexes and hide old slide
+  setTimeout(() => {
+    slides[cur].classList.remove('visible');
+    slides[cur].style.zIndex = 1;
+    slides[next].style.zIndex = 2;
+
+    document.getElementById('dot' + cur).classList.remove('active');
+    document.getElementById('dot' + next).classList.add('active');
+    cur = next;
+  }, 2800); // matches the CSS transition duration
+
 }, 5500);
 
 // ── TABS ──
