@@ -260,7 +260,7 @@
     border-radius: 20px; letter-spacing: 0.04em;
     backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
   }
-  .wa-wrap { position: fixed; bottom: 20px; right: 82px; z-index: 10; }
+  .wa-wrap { position: fixed; bottom: 20px; right: 88px; z-index: 10; }
   .wa-wrap .tooltip {
     visibility: hidden; opacity: 0; background: rgba(28,16,4,0.82);
     color: rgba(255,255,255,0.9); font-size: 11px; font-weight: 500;
@@ -326,6 +326,7 @@
       <button class="tab" onclick="show('daily',this)">Daily</button>
       <button class="tab" onclick="show('alarm',this)">Alarm</button>
       <button class="tab" onclick="show('departure',this)">Departure</button>
+      <button class="tab" onclick="show('explore',this)">Explore</button>
     </div>
   </div>
 
@@ -340,7 +341,6 @@
         <div class="quick-links">
           <a class="quick-link" href="https://maps.app.goo.gl/A9k8dMHQPVtviXrw6" target="_blank">📍 Directions</a>
           <a class="quick-link" href="http://masduluberon.free.fr" target="_blank">🏡 Property site</a>
-          <a class="quick-link" href="https://chat.whatsapp.com/LvWXisQwd1JCwTf0uWUc5O?mode=gi_t" target="_blank">💬 Group chat</a>
         </div>
         <div class="card">
           <div class="card-label">Host team</div>
@@ -353,6 +353,13 @@
           <div class="card-label">Technical</div>
           <div class="contact-row"><span class="contact-name">Remote monitoring (SOTEL)</span><span class="contact-val"><a href="tel:+33821616100">0821 61 61 00</a></span></div>
           <div class="contact-row"><span class="contact-name">Alarm maintenance (VULLO)</span><span class="contact-val"><a href="tel:+33490711424">04 90 71 14 24</a></span></div>
+        </div>
+        <div class="card">
+          <div class="card-label">Emergency — France</div>
+          <div class="contact-row"><span class="contact-name">SAMU (medical)</span><span class="contact-val"><a href="tel:15">15</a></span></div>
+          <div class="contact-row"><span class="contact-name">Fire brigade (Pompiers)</span><span class="contact-val"><a href="tel:18">18</a></span></div>
+          <div class="contact-row"><span class="contact-name">Police</span><span class="contact-val"><a href="tel:17">17</a></span></div>
+          <div class="contact-row"><span class="contact-name">European emergency</span><span class="contact-val"><a href="tel:112">112</a></span></div>
         </div>
         <div class="warn">⚠ Always contact <strong>Isabelle</strong> before calling SOTEL for any alarm issue.</div>
         <div class="card">
@@ -478,8 +485,97 @@
         <div class="warn" style="font-size:12.5px;">💡 Tip: request BBQ/plancha cleaning by the housekeeper — tell Isabelle on arrival, they'll come at 9:00 AM on departure day.</div>
       </div>
 
+      <!-- EXPLORE -->
+      <div class="panel" id="tab-explore">
+        <p class="sec-head">Explore</p>
+        <p class="sec-desc">Markets, villages, and flavours of the Luberon</p>
+
+        <div class="card">
+          <div class="card-label">Markets nearby</div>
+          <div class="contact-row">
+            <span class="contact-name">Cavaillon — Mon morning</span>
+            <span class="contact-val"><a href="https://maps.app.goo.gl/ZF3g1uBq7QmRmfTw8" target="_blank">Map →</a></span>
+          </div>
+          <div class="contact-row">
+            <span class="contact-name">Isle-sur-la-Sorgue — Sun morning</span>
+            <span class="contact-val"><a href="https://maps.app.goo.gl/S9W5WqWg7nXcYmhe9" target="_blank">Map →</a></span>
+          </div>
+          <div class="contact-row">
+            <span class="contact-name">Apt — Sat morning (best in region)</span>
+            <span class="contact-val"><a href="https://maps.app.goo.gl/kZ4ZfJ3oJ2k4Yb1P6" target="_blank">Map →</a></span>
+          </div>
+          <div class="contact-row">
+            <span class="contact-name">Lourmarin — Fri morning</span>
+            <span class="contact-val"><a href="https://maps.app.goo.gl/ZJ7CwL8d7aMkxfUy6" target="_blank">Map →</a></span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-label">Villages worth visiting</div>
+          <div class="contact-row">
+            <span class="contact-name">Gordes — perched village, 45 min</span>
+            <span class="contact-val"><a href="https://maps.app.goo.gl/eM2tX1VfXVmRDkBy9" target="_blank">Map →</a></span>
+          </div>
+          <div class="contact-row">
+            <span class="contact-name">Roussillon — ochre cliffs, 50 min</span>
+            <span class="contact-val"><a href="https://maps.app.goo.gl/hCdNqMHjFmQ9T5u47" target="_blank">Map →</a></span>
+          </div>
+          <div class="contact-row">
+            <span class="contact-name">Les Baux-de-Provence — 30 min</span>
+            <span class="contact-val"><a href="https://maps.app.goo.gl/TBqfcZjBJLfrGEkF9" target="_blank">Map →</a></span>
+          </div>
+          <div class="contact-row">
+            <span class="contact-name">Sénanque Abbey (lavender) — 50 min</span>
+            <span class="contact-val"><a href="https://maps.app.goo.gl/rLwwmRrz9d2VNk5n8" target="_blank">Map →</a></span>
+          </div>
+          <div class="contact-row">
+            <span class="contact-name">Isle-sur-la-Sorgue (antiques) — 20 min</span>
+            <span class="contact-val"><a href="https://maps.app.goo.gl/S9W5WqWg7nXcYmhe9" target="_blank">Map →</a></span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-label">Food &amp; drink</div>
+          <div class="contact-row">
+            <span class="contact-name">Cavaillon melon — iconic local fruit</span>
+            <span class="contact-val" style="font-size:12px;color:var(--stone);">Jun–Aug</span>
+          </div>
+          <div class="contact-row">
+            <span class="contact-name">Côtes du Luberon wines</span>
+            <span class="contact-val" style="font-size:12px;color:var(--stone);">AOC rosé &amp; red</span>
+          </div>
+          <div class="contact-row">
+            <span class="contact-name">Fromagerie Marcel Brun, Apt</span>
+            <span class="contact-val"><a href="https://maps.app.goo.gl/qP5hPMBCkqXy4YZJA" target="_blank">Map →</a></span>
+          </div>
+          <div class="contact-row">
+            <span class="contact-name">Distillerie Manguin, Isle-sur-Sorgue</span>
+            <span class="contact-val"><a href="https://maps.app.goo.gl/LqnAcM9cqhKJz5sU9" target="_blank">Map →</a></span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-label">Outdoors</div>
+          <div class="contact-row">
+            <span class="contact-name">Gorges de Régalon hike</span>
+            <span class="contact-val" style="font-size:12px;color:var(--stone);">20 min from mas</span>
+          </div>
+          <div class="contact-row">
+            <span class="contact-name">Petit Luberon summit trail</span>
+            <span class="contact-val" style="font-size:12px;color:var(--stone);">45 min drive</span>
+          </div>
+          <div class="contact-row">
+            <span class="contact-name">Cycling — Luberon à Vélo route</span>
+            <span class="contact-val"><a href="https://www.luberon-apt.fr/bouger/velo" target="_blank">Info →</a></span>
+          </div>
+        </div>
+
+        <div class="warn">💡 Isle-sur-la-Sorgue on a Sunday morning — antique dealers, kayaking on the Sorgue, and the best breakfast crêpes in the Vaucluse. Do not miss it.</div>
+
+        <div class="footer"><span class="olive">🫒</span><p>Sun, pool, naps, and Provence await.<br><a href="http://masduluberon.free.fr">masduluberon.free.fr</a></p></div>
+      </div>
+
     </div>
-  </div><!-- /content-pane -->
 
 </div><!-- /app -->
 
@@ -565,11 +661,29 @@ function show(id, btn) {
   document.getElementById('contentPane').scrollTop = 0;
 }
 
-// ── CHECKLIST ──
-function tick(li) {
-  li.querySelector('.cb').classList.toggle('done');
-  li.querySelector('.item-text').classList.toggle('done');
+// ── CHECKLIST with localStorage persistence ──
+function getKey(li) {
+  // Use the text content as a stable key
+  return 'chk:' + li.querySelector('.item-text').textContent.trim().slice(0, 60);
 }
+
+function tick(li) {
+  const cb = li.querySelector('.cb');
+  const txt = li.querySelector('.item-text');
+  const done = cb.classList.toggle('done');
+  txt.classList.toggle('done');
+  try { localStorage.setItem(getKey(li), done ? '1' : '0'); } catch(e) {}
+}
+
+// Restore saved tick states on load
+document.querySelectorAll('.checklist li').forEach(li => {
+  try {
+    if (localStorage.getItem(getKey(li)) === '1') {
+      li.querySelector('.cb').classList.add('done');
+      li.querySelector('.item-text').classList.add('done');
+    }
+  } catch(e) {}
+});
 </script>
 </body>
 </html>
