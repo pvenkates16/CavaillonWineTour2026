@@ -2,634 +2,549 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Mas des Oliviers — Guest Guide</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --terracotta: #C4581F;
-    --terracotta-light: #E8845A;
-    --cream: #FAF6EE;
-    --warm-white: #FFFDF9;
-    --bark: #2C1F0E;
-    --stone: #8C7B68;
-    --stone-light: #EDE5D8;
-    --stone-mid: #D4C8B6;
-    --sage: #5D7A5A;
-    --warning-bg: #FDF3E7;
-    --warning-border: #E8A04A;
+    --ocre: #C17F3E;
+    --ocre-deep: #A86A2A;
+    --ocre-glow: #D4944F;
+    --parchment: #F0E8D8;
+    --bark: #2A1E0E;
+    --bark-soft: #3D2E18;
+    --stone: #8A7B6A;
+    --stone-light: #E6DDD0;
+    --stone-mid: #D1C5B3;
+    --olive: #5B6E45;
+    --terracotta: #B85C38;
+    --shadow-warm: rgba(42,30,14,0.08);
+    --warning-bg: #FDF3E4;
+    --warning-border: #D4A054;
     --warning-text: #7A4A10;
-    --success: #4A7A5A;
+    --header-h: 72px;
+    --tabs-h: 46px;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--cream);
-    color: var(--bark);
-    min-height: 100vh;
-    position: relative;
-  }
+  /* Lock the viewport — no outer scroll ever */
+  html, body { height: 100%; overflow: hidden; font-family: 'Source Sans 3', sans-serif; color: var(--bark); }
+
+  /* ══ FULL-VIEWPORT BACKGROUND SLIDESHOW ══ */
+  .bg-stage { position: fixed; inset: 0; z-index: 0; }
   .bg-slide {
-    position: fixed;
-    inset: 0;
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    opacity: 0;
-    z-index: 0;
-    pointer-events: none;
-    transition: opacity 2s ease-in-out;
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+    opacity: 0; transition: opacity 2.8s ease-in-out;
   }
-  .bg-slide.visible {
-    opacity: 0.18;
-  }
-  .hero, .tabs-wrap, .content {
-    position: relative;
-    z-index: 1;
-  }
+  .bg-slide.visible { opacity: 1; }
+  /* warm veil so cards remain legible against any photo */
+  .bg-veil { position: fixed; inset: 0; z-index: 1; background: rgba(28,16,4,0.50); }
 
-  /* Header */
-  .hero {
-    background: var(--bark);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 8px 16px;
-    gap: 10px;
-  }
-  .hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--cream);
-    white-space: nowrap;
-  }
-  .hero-sub {
-    font-size: 10px;
-    color: var(--stone);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .hero-arrival {
-    display: inline-flex;
-    align-items: center;
-    white-space: nowrap;
-    background: rgba(196,88,31,0.25);
-    border: 1px solid rgba(196,88,31,0.4);
-    border-radius: 20px;
-    padding: 3px 10px;
-    font-size: 10px;
-    color: var(--terracotta-light);
-    font-weight: 500;
-    flex-shrink: 0;
-  }
+  /* ══ APP SHELL: header + tabs + scroll pane = 100vh ══ */
+  .app { position: fixed; inset: 0; z-index: 2; display: flex; flex-direction: column; }
 
-  /* Nav tabs */
-  .tabs-wrap {
-    background: var(--bark);
-    border-top: 1px solid rgba(255,255,255,0.07);
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    padding: 6px 16px 8px;
+  /* ── HEADER ── */
+  .header {
+    height: var(--header-h); flex-shrink: 0;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 20px; position: relative;
+    background: rgba(28,16,4,0.38);
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255,255,255,0.07);
   }
-  .tabs-wrap::-webkit-scrollbar { display: none; }
+  .header-left { display: flex; flex-direction: column; gap: 2px; }
+  .header h1 {
+    font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: 28px;
+    color: #fff; letter-spacing: 0.03em; line-height: 1.1;
+    text-shadow: 0 1px 18px rgba(0,0,0,0.45);
+  }
+  .header-sub {
+    font-size: 10.5px; font-weight: 300; letter-spacing: 0.17em;
+    text-transform: uppercase; color: rgba(255,255,255,0.5);
+  }
+  .arrival-pill {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: rgba(255,255,255,0.1); backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.18); border-radius: 20px;
+    padding: 6px 14px; font-size: 11px; font-weight: 500;
+    color: #fff; letter-spacing: 0.04em; white-space: nowrap; flex-shrink: 0;
+  }
+  .arrival-pill .star { color: var(--ocre-glow); }
+  .slide-dots {
+    position: absolute; bottom: 7px; right: 20px;
+    display: flex; gap: 4px; pointer-events: none;
+  }
+  .slide-dot {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: rgba(255,255,255,0.2); transition: all 0.4s;
+  }
+  .slide-dot.active { background: rgba(255,255,255,0.7); width: 14px; border-radius: 3px; }
+
+  /* ── TABS ── */
+  .tabs-bar {
+    height: var(--tabs-h); flex-shrink: 0;
+    background: rgba(252,249,244,0.93);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(209,197,179,0.45);
+    overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+  }
+  .tabs-bar::-webkit-scrollbar { display: none; }
   .tabs {
-    display: flex;
-    gap: 6px;
-    white-space: nowrap;
+    display: flex; height: 100%; white-space: nowrap;
+    max-width: 680px; margin: 0 auto; padding: 0 12px;
   }
   .tab {
-    padding: 5px 13px;
-    border-radius: 20px;
-    border: 1px solid rgba(255,255,255,0.15);
-    font-size: 12px;
-    cursor: pointer;
-    background: transparent;
-    color: rgba(255,255,255,0.55);
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 400;
-    transition: all 0.2s;
-    flex-shrink: 0;
+    height: 100%; padding: 0 16px;
+    font-family: 'Source Sans 3', sans-serif; font-size: 12px;
+    font-weight: 500; letter-spacing: 0.09em; text-transform: uppercase;
+    cursor: pointer; background: transparent; border: none; color: var(--stone);
+    position: relative; transition: color 0.25s; flex-shrink: 0;
+    display: flex; align-items: center;
   }
-  .tab.active {
-    background: var(--terracotta);
-    border-color: var(--terracotta);
-    color: white;
-    font-weight: 500;
+  .tab::after {
+    content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 0; height: 2px; background: var(--ocre); border-radius: 1px 1px 0 0;
+    transition: width 0.3s ease;
+  }
+  .tab:hover { color: var(--bark); }
+  .tab.active { color: var(--ocre-deep); font-weight: 600; }
+  .tab.active::after { width: 22px; }
+
+  /* ── SCROLLABLE CONTENT PANE (fills remaining viewport height) ── */
+  .content-pane {
+    flex: 1; min-height: 0;          /* critical: allows flex child to shrink below content height */
+    overflow-y: auto; overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+  .content-pane::-webkit-scrollbar { width: 3px; }
+  .content-pane::-webkit-scrollbar-track { background: transparent; }
+  .content-pane::-webkit-scrollbar-thumb { background: rgba(140,123,106,0.25); border-radius: 2px; }
+
+  .content-inner {
+    padding: 20px 16px 110px;
+    max-width: 680px; margin: 0 auto;
   }
 
-  /* Content */
-  .content {
-    padding: 20px 16px 40px;
-    max-width: 600px;
-    margin: 0 auto;
-  }
-
-  .panel { display: none; }
+  /* ══ PANELS ══ */
+  .panel { display: none; animation: fadeIn 0.32s ease; }
   .panel.active { display: block; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(5px); } to { opacity:1; transform:translateY(0); } }
 
-  /* Cards */
+  .sec-head {
+    font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 400;
+    color: #fff; margin-bottom: 3px;
+    text-shadow: 0 1px 14px rgba(0,0,0,0.5);
+  }
+  .sec-desc {
+    font-family: 'Lora', serif; font-size: 13px; font-style: italic;
+    color: rgba(255,255,255,0.55); margin-bottom: 16px;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.35);
+  }
+
+  /* ══ CARDS — frosted glass ══ */
   .card {
-    background: var(--warm-white);
-    border: 1px solid var(--stone-mid);
-    border-radius: 12px;
-    padding: 16px;
-    margin-bottom: 12px;
+    background: rgba(253,250,245,0.93);
+    backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px);
+    border: 1px solid rgba(255,255,255,0.58);
+    border-radius: 14px; padding: 16px 18px; margin-bottom: 12px;
+    box-shadow: 0 4px 28px rgba(28,16,4,0.2), 0 1px 0 rgba(255,255,255,0.45) inset;
   }
-
   .card-label {
-    font-size: 9px;
-    font-weight: 500;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--stone);
-    margin-bottom: 10px;
+    font-size: 9.5px; font-weight: 600; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--ocre-deep); margin-bottom: 10px;
+    display: flex; align-items: center; gap: 8px;
   }
+  .card-label::after { content: ''; flex: 1; height: 1px; background: linear-gradient(to right, var(--stone-light), transparent); }
 
   /* Contact rows */
   .contact-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 0;
-    border-bottom: 1px solid var(--stone-light);
-    gap: 8px;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 9px 0; border-bottom: 1px solid var(--stone-light); gap: 8px;
   }
   .contact-row:last-child { border-bottom: none; padding-bottom: 0; }
   .contact-name { font-size: 13px; color: var(--stone); flex: 1; }
-  .contact-val {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--bark);
-    text-align: right;
-  }
-  .contact-val a { color: var(--terracotta); text-decoration: none; }
+  .contact-val { font-size: 13px; font-weight: 500; color: var(--bark); text-align: right; }
+  .contact-val a { color: var(--ocre-deep); text-decoration: none; border-bottom: 1px dotted var(--ocre-glow); }
+  .contact-val a:hover { border-bottom-style: solid; }
 
-  /* Code pill */
   .pill {
-    display: inline-block;
-    background: var(--stone-light);
-    border: 1px solid var(--stone-mid);
-    border-radius: 5px;
-    padding: 1px 7px;
-    font-size: 12.5px;
-    font-family: 'Courier New', monospace;
-    font-weight: 500;
-    color: var(--bark);
+    display: inline-block; background: var(--parchment); border: 1px solid var(--stone-mid);
+    border-radius: 5px; padding: 1px 7px; font-size: 12px;
+    font-family: 'Courier New', monospace; font-weight: 500; color: var(--bark-soft);
   }
 
-  /* Warning */
   .warn {
-    background: var(--warning-bg);
-    border: 1px solid var(--warning-border);
-    border-radius: 8px;
-    padding: 10px 13px;
-    font-size: 12.5px;
-    color: var(--warning-text);
-    line-height: 1.5;
-    margin-bottom: 12px;
+    background: rgba(253,243,228,0.93);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border-left: 3px solid var(--warning-border);
+    border-radius: 0 10px 10px 0; padding: 11px 15px;
+    font-size: 13px; color: var(--warning-text); line-height: 1.6; margin-bottom: 12px;
+    box-shadow: 0 2px 14px rgba(28,16,4,0.12);
   }
-  .warn strong { font-weight: 500; }
+  .warn strong { font-weight: 600; }
+  .warn a { color: var(--warning-text); font-weight: 500; }
 
-  /* Checklist */
   .checklist { list-style: none; }
   .checklist li {
-    display: flex;
-    gap: 11px;
-    align-items: flex-start;
-    padding: 7px 0;
-    border-bottom: 1px solid var(--stone-light);
-    font-size: 13px;
-    line-height: 1.5;
-    cursor: pointer;
+    display: flex; gap: 11px; align-items: flex-start;
+    padding: 8px 6px; border-bottom: 1px solid var(--stone-light);
+    font-size: 13px; line-height: 1.55; cursor: pointer;
+    border-radius: 6px; margin: 0 -6px; transition: background 0.15s;
   }
-  .checklist li:last-child { border-bottom: none; padding-bottom: 0; }
+  .checklist li:hover { background: rgba(193,127,62,0.06); }
+  .checklist li:last-child { border-bottom: none; }
   .cb {
-    width: 18px; height: 18px;
-    min-width: 18px;
-    border: 1.5px solid var(--stone-mid);
-    border-radius: 4px;
-    margin-top: 1px;
+    width: 19px; height: 19px; min-width: 19px;
+    border: 1.5px solid var(--stone-mid); border-radius: 5px; margin-top: 1px;
     display: flex; align-items: center; justify-content: center;
-    transition: all 0.15s;
-    background: white;
+    transition: all 0.18s ease; background: white;
   }
-  .cb.done {
-    background: var(--success);
-    border-color: var(--success);
-  }
-  .cb.done::after {
-    content: '✓';
-    font-size: 11px;
-    color: white;
-    font-weight: 500;
-  }
+  .cb.done { background: var(--olive); border-color: var(--olive); transform: scale(1.05); }
+  .cb.done::after { content: '✓'; font-size: 11px; color: white; font-weight: 700; }
   .item-text { flex: 1; color: var(--bark); }
-  .item-text.done { color: var(--stone); text-decoration: line-through; }
+  .item-text.done { color: var(--stone); text-decoration: line-through; text-decoration-color: var(--stone-mid); }
 
-  /* Section heading inside panels */
-  .sec-head {
-    font-family: 'Playfair Display', serif;
-    font-size: 17px;
-    color: var(--bark);
-    margin-bottom: 12px;
-    margin-top: 4px;
-  }
-
-  /* Alarm steps */
   .alarm-step {
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-    padding: 8px 0;
-    border-bottom: 1px solid var(--stone-light);
-    font-size: 13px;
-    line-height: 1.5;
+    display: flex; gap: 13px; align-items: flex-start;
+    padding: 9px 0; border-bottom: 1px solid var(--stone-light);
+    font-size: 13px; line-height: 1.55;
   }
   .alarm-step:last-child { border-bottom: none; padding-bottom: 0; }
   .step-num {
-    min-width: 24px; height: 24px;
-    border-radius: 50%;
-    background: var(--stone-light);
+    min-width: 26px; height: 26px; border-radius: 50%;
+    background: var(--parchment); border: 1px solid var(--stone-mid);
     display: flex; align-items: center; justify-content: center;
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--terracotta);
-    margin-top: 1px;
-    flex-shrink: 0;
+    font-size: 11.5px; font-weight: 700; color: var(--ocre-deep); flex-shrink: 0;
+    font-family: 'Cormorant Garamond', serif;
   }
 
-  /* Bin table */
   .bin-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
   .bin-table th {
-    text-align: left;
-    font-size: 9px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--stone);
-    padding: 0 0 8px;
-    border-bottom: 1px solid var(--stone-mid);
-    font-weight: 500;
+    text-align: left; font-size: 9px; letter-spacing: 0.13em; text-transform: uppercase;
+    color: var(--stone); padding: 0 0 8px; border-bottom: 1.5px solid var(--stone-mid); font-weight: 600;
   }
-  .bin-table td {
-    padding: 7px 6px 7px 0;
-    border-bottom: 1px solid var(--stone-light);
-    vertical-align: top;
-    line-height: 1.4;
-  }
+  .bin-table td { padding: 8px 6px 8px 0; border-bottom: 1px solid var(--stone-light); vertical-align: top; line-height: 1.45; }
   .bin-table tr:last-child td { border-bottom: none; }
 
-  /* Fine table */
   .fine-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  .fine-table td {
-    padding: 8px 0;
-    border-bottom: 1px solid var(--stone-light);
-    vertical-align: top;
-    line-height: 1.4;
-  }
+  .fine-table td { padding: 9px 0; border-bottom: 1px solid var(--stone-light); vertical-align: top; line-height: 1.5; }
   .fine-table tr:last-child td { border-bottom: none; }
-  .fine-amt { font-weight: 500; color: #A32D2D; text-align: right; padding-left: 12px; white-space: nowrap; }
+  .fine-amt { font-weight: 600; color: var(--terracotta); text-align: right; padding-left: 12px; white-space: nowrap; font-family: 'Cormorant Garamond', serif; font-size: 15px; }
 
-  /* Footer */
-  .credit {
-    position: fixed;
-    bottom: 14px;
-    left: 16px;
-    z-index: 998;
-    display: flex;
-    align-items: center;
-    gap: 6px;
+  .quick-links { display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto; scrollbar-width: none; }
+  .quick-links::-webkit-scrollbar { display: none; }
+  .quick-link {
+    display: inline-flex; align-items: center; gap: 5px; padding: 7px 13px;
+    background: rgba(253,250,245,0.88); backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.5); border-radius: 20px;
+    font-size: 12px; font-weight: 500; color: var(--bark-soft); text-decoration: none;
+    white-space: nowrap; flex-shrink: 0; transition: all 0.2s;
+    box-shadow: 0 2px 10px rgba(28,16,4,0.12);
   }
+  .quick-link:hover { background: rgba(240,232,216,0.96); color: var(--bark); }
+
+  .footer { text-align: center; padding: 18px 0 4px; border-top: 1px solid rgba(230,221,208,0.3); margin-top: 4px; }
+  .footer p { font-family: 'Lora', serif; font-size: 12px; font-style: italic; color: rgba(255,255,255,0.5); text-shadow: 0 1px 6px rgba(0,0,0,0.3); line-height: 1.7; }
+  .footer a { color: var(--ocre-glow); text-decoration: none; }
+  .footer .olive { font-size: 18px; display: block; margin-bottom: 5px; }
+
+  /* ══ FLOATING UI ══ */
+  .credit { position: fixed; bottom: 14px; left: 16px; z-index: 10; pointer-events: none; }
   .credit-pill {
-    font-size: 13px;
-    color: var(--cream);
-    background: rgba(44, 31, 14, 0.55);
-    padding: 4px 10px;
-    border-radius: 20px;
-    letter-spacing: 0.03em;
-    font-weight: 500;
-    backdrop-filter: blur(4px);
-    pointer-events: none;
+    font-size: 11px; color: rgba(255,255,255,0.65);
+    background: rgba(28,16,4,0.42); padding: 3px 10px;
+    border-radius: 20px; letter-spacing: 0.04em;
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
   }
-
-
-
-
-
-
-  .wa-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    background: #25D366;
-    text-decoration: none;
-    vertical-align: middle;
-    margin-left: 8px;
-    box-shadow: 0 2px 8px rgba(37,211,102,0.4);
-    transition: transform 0.2s;
-    position: relative;
-    top: -1px;
+  .wa-wrap { position: fixed; bottom: 20px; right: 82px; z-index: 10; }
+  .wa-wrap .tooltip {
+    visibility: hidden; opacity: 0; background: rgba(28,16,4,0.82);
+    color: rgba(255,255,255,0.9); font-size: 11px; font-weight: 500;
+    white-space: nowrap; padding: 4px 12px; border-radius: 8px;
+    position: absolute; bottom: 62px; left: 50%; transform: translateX(-50%);
+    transition: opacity 0.2s; pointer-events: none;
   }
-  .wa-btn:hover { transform: scale(1.1); }
-  .wa-btn svg { width: 14px; height: 14px; fill: white; }
-
-  .footer {
-    text-align: center;
-    margin-top: 32px;
-    font-size: 11px;
-    color: var(--stone);
-    line-height: 1.7;
-  }
-  .footer .olive { font-size: 18px; display: block; margin-bottom: 4px; }
-
-
-
-  /* Spacer to reserve the Chatbase bubble slot (52x52) */
+  .wa-wrap:hover .tooltip { visibility: visible; opacity: 1; }
   .wa-pill {
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    background: #25D366;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 16px rgba(37,211,102,0.45);
-    text-decoration: none;
-    z-index: 997;
-    transition: transform 0.2s;
+    width: 52px; height: 52px; border-radius: 50%; background: #25D366;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 20px rgba(37,211,102,0.4); text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
   }
-  .wa-pill:hover { transform: scale(1.08); }
+  .wa-pill:hover { transform: scale(1.08); box-shadow: 0 6px 24px rgba(37,211,102,0.52); }
   .wa-pill svg { width: 28px; height: 28px; fill: white; }
+  #chatbase-bubble-button { bottom: 20px !important; right: 20px !important; }
 
-  #chatbase-bubble-button {
-    bottom: 20px !important;
-    right: 20px !important;
+  /* ── Responsive ── */
+  @media (min-width: 480px) {
+    :root { --header-h: 80px; --tabs-h: 50px; }
+    .header h1 { font-size: 32px; }
+    .content-inner { padding: 24px 20px 110px; }
   }
-
-  .tooltip-wrap {
-    position: relative;
-    display: inline-block;
-  }
-  .tooltip-wrap .tooltip {
-    visibility: hidden;
-    opacity: 0;
-    background: rgba(44,31,14,0.85);
-    color: var(--cream);
-    font-size: 11px;
-    font-weight: 500;
-    white-space: nowrap;
-    padding: 4px 10px;
-    border-radius: 8px;
-    position: absolute;
-    bottom: 62px;
-    left: 50%;
-    transform: translateX(-50%);
-    transition: opacity 0.2s;
-    pointer-events: none;
-    backdrop-filter: blur(4px);
-  }
-  .tooltip-wrap:hover .tooltip {
-    visibility: visible;
-    opacity: 1;
+  @media (min-width: 768px) {
+    :root { --header-h: 84px; --tabs-h: 54px; }
+    .header h1 { font-size: 36px; }
+    .tab { padding: 0 22px; font-size: 12.5px; }
   }
 </style>
 </head>
 <body>
 
-<div class="bg-slide" id="bg0"></div>
-<div class="bg-slide" id="bg1"></div>
-<div class="bg-slide" id="bg2"></div>
-<div class="bg-slide" id="bg3"></div>
-<div class="bg-slide" id="bg4"></div>
-<div class="hero">
-  <div>
-    <h1>Mas des Oliviers</h1>
-    <div class="hero-sub">396 chemin des Fourches, 84300 Cavaillon</div>
-  </div>
-  <div class="hero-arrival">✦ June 6th, 4 PM</div>
+<!-- ══ FULL-VIEWPORT BACKGROUND ══ -->
+<div class="bg-stage">
+  <div class="bg-slide" id="bg0"></div>
+  <div class="bg-slide" id="bg1"></div>
+  <div class="bg-slide" id="bg2"></div>
+  <div class="bg-slide" id="bg3"></div>
+  <div class="bg-slide" id="bg4"></div>
+  <div class="bg-slide" id="bg5"></div>
 </div>
+<div class="bg-veil"></div>
 
-<div class="tabs-wrap">
-  <div class="tabs">
-    <button class="tab active" onclick="show('contacts',this)">Contacts</button>
-    <button class="tab" onclick="show('arrival',this)">Arrival</button>
-    <button class="tab" onclick="show('daily',this)">Daily</button>
-    <button class="tab" onclick="show('alarm',this)">Alarm</button>
-    <button class="tab" onclick="show('departure',this)">Departure</button>
+<!-- ══ APP SHELL ══ -->
+<div class="app">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
+      <h1>Mas des Oliviers</h1>
+      <div class="header-sub">Luberon · Cavaillon · Provence</div>
+    </div>
+    <div class="arrival-pill"><span class="star">✦</span> June 6th, 4 PM</div>
+    <div class="slide-dots" id="slideDots"></div>
   </div>
-</div>
 
-<div class="content">
-
-  <!-- CONTACTS -->
-  <div class="panel active" id="tab-contacts">
-    <div class="card">
-      <div class="card-label">Host team</div>
-      <div class="contact-row"><span class="contact-name">Isabelle (host)</span><span class="contact-val"><a href="tel:+33680307918">06 80 30 79 18</a></span></div>
-      <div class="contact-row"><span class="contact-name">Ollivier (host)</span><span class="contact-val"><a href="tel:+33614251075">06 14 25 10 75</a></span></div>
-      <div class="contact-row"><span class="contact-name">Nancy (welcome)</span><span class="contact-val"><a href="tel:+33615650497">06 15 65 04 97</a></span></div>
-      <div class="contact-row"><span class="contact-name">Property landline</span><span class="contact-val"><a href="tel:+33952686528">09 52 68 65 28</a></span></div>
-    </div>
-    <div class="card">
-      <div class="card-label">Technical</div>
-      <div class="contact-row"><span class="contact-name">Remote monitoring (SOTEL)</span><span class="contact-val"><a href="tel:+33821616100">0821 61 61 00</a></span></div>
-      <div class="contact-row"><span class="contact-name">Alarm maintenance (VULLO)</span><span class="contact-val"><a href="tel:+33490711424">04 90 71 14 24</a></span></div>
-    </div>
-    <div class="warn">⚠ Always contact <strong>Isabelle</strong> before calling SOTEL for any alarm issue.</div>
-    <div class="card">
-      <div class="card-label">Gate &amp; garage codes</div>
-      <div class="contact-row"><span class="contact-name">Remote — open gate</span><span class="contact-val">Button <span class="pill">1</span></span></div>
-      <div class="contact-row"><span class="contact-name">Outside keypad</span><span class="contact-val"><span class="pill">1212A</span></span></div>
-      <div class="contact-row"><span class="contact-name">Inside keypad</span><span class="contact-val"><span class="pill">1010A</span></span></div>
-    </div>
-    <div class="card">
-      <div class="card-label">WiFi</div>
-      <div class="contact-row"><span class="contact-name">Network</span><span class="contact-val"><span class="pill">Isa</span> <span class="pill">isaext</span> <span class="pill">Isa1_bureau</span></span></div>
-      <div class="contact-row"><span class="contact-name">Password</span><span class="contact-val"><span class="pill">1 04 90 71 51 32</span></span></div>
+  <!-- TABS -->
+  <div class="tabs-bar">
+    <div class="tabs">
+      <button class="tab active" onclick="show('contacts',this)">Contacts</button>
+      <button class="tab" onclick="show('arrival',this)">Arrival</button>
+      <button class="tab" onclick="show('daily',this)">Daily</button>
+      <button class="tab" onclick="show('alarm',this)">Alarm</button>
+      <button class="tab" onclick="show('departure',this)">Departure</button>
     </div>
   </div>
 
-  <!-- ARRIVAL -->
-  <div class="panel" id="tab-arrival">
-    <p class="sec-head">Arrival Checklist</p>
-    <div class="card">
-      <div class="card-label">Friday June 6th, 4:00 PM</div>
-      <ul class="checklist">
-        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Arrive at 4:00 PM — Nancy will welcome you</span></li>
-        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Pay €2,000 security deposit via the Tyllt link</span></li>
-        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Receive alarm codes and remote fob from Nancy</span></li>
-        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Walkthrough of the house with Nancy (~1 hour — essential!)</span></li>
-        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Confirm bed configuration — 3 rooms can split 180cm → 2×90cm (let Isabelle know in advance)</span></li>
-        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Connect to WiFi</span></li>
-      </ul>
+  <!-- CONTENT PANE — only this zone scrolls -->
+  <div class="content-pane" id="contentPane">
+    <div class="content-inner">
+
+      <!-- CONTACTS -->
+      <div class="panel active" id="tab-contacts">
+        <p class="sec-head">Essential Contacts</p>
+        <p class="sec-desc">Your hosts and key numbers for the stay</p>
+        <div class="quick-links">
+          <a class="quick-link" href="https://maps.app.goo.gl/A9k8dMHQPVtviXrw6" target="_blank">📍 Directions</a>
+          <a class="quick-link" href="http://masduluberon.free.fr" target="_blank">🏡 Property site</a>
+          <a class="quick-link" href="https://chat.whatsapp.com/LvWXisQwd1JCwTf0uWUc5O?mode=gi_t" target="_blank">💬 Group chat</a>
+        </div>
+        <div class="card">
+          <div class="card-label">Host team</div>
+          <div class="contact-row"><span class="contact-name">Isabelle (host)</span><span class="contact-val"><a href="tel:+33680307918">06 80 30 79 18</a></span></div>
+          <div class="contact-row"><span class="contact-name">Ollivier (host)</span><span class="contact-val"><a href="tel:+33614251075">06 14 25 10 75</a></span></div>
+          <div class="contact-row"><span class="contact-name">Nancy (welcome)</span><span class="contact-val"><a href="tel:+33615650497">06 15 65 04 97</a></span></div>
+          <div class="contact-row"><span class="contact-name">Property landline</span><span class="contact-val"><a href="tel:+33952686528">09 52 68 65 28</a></span></div>
+        </div>
+        <div class="card">
+          <div class="card-label">Technical</div>
+          <div class="contact-row"><span class="contact-name">Remote monitoring (SOTEL)</span><span class="contact-val"><a href="tel:+33821616100">0821 61 61 00</a></span></div>
+          <div class="contact-row"><span class="contact-name">Alarm maintenance (VULLO)</span><span class="contact-val"><a href="tel:+33490711424">04 90 71 14 24</a></span></div>
+        </div>
+        <div class="warn">⚠ Always contact <strong>Isabelle</strong> before calling SOTEL for any alarm issue.</div>
+        <div class="card">
+          <div class="card-label">Gate &amp; garage codes</div>
+          <div class="contact-row"><span class="contact-name">Remote — open gate</span><span class="contact-val">Button <span class="pill">1</span></span></div>
+          <div class="contact-row"><span class="contact-name">Outside keypad</span><span class="contact-val"><span class="pill">1212A</span></span></div>
+          <div class="contact-row"><span class="contact-name">Inside keypad</span><span class="contact-val"><span class="pill">1010A</span></span></div>
+        </div>
+        <div class="card">
+          <div class="card-label">WiFi</div>
+          <div class="contact-row"><span class="contact-name">Network</span><span class="contact-val"><span class="pill">Isa</span> <span class="pill">isaext</span> <span class="pill">Isa1_bureau</span></span></div>
+          <div class="contact-row"><span class="contact-name">Password</span><span class="contact-val"><span class="pill">1 04 90 71 51 32</span></span></div>
+        </div>
+        <div class="footer"><span class="olive">🫒</span><p>Sun, pool, naps, and Provence await.<br><a href="http://masduluberon.free.fr">masduluberon.free.fr</a></p></div>
+      </div>
+
+      <!-- ARRIVAL -->
+      <div class="panel" id="tab-arrival">
+        <p class="sec-head">Arrival Checklist</p>
+        <p class="sec-desc">Friday June 6th — Nancy will welcome you at four</p>
+        <div class="card">
+          <div class="card-label">Friday June 6th, 4:00 PM</div>
+          <ul class="checklist">
+            <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Arrive at 4:00 PM — Nancy will welcome you</span></li>
+            <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Pay €2,000 security deposit via the Tyllt link</span></li>
+            <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Receive alarm codes and remote fob from Nancy</span></li>
+            <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Walkthrough of the house with Nancy (~1 hour — essential!)</span></li>
+            <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Confirm bed configuration — 3 rooms can split 180cm → 2×90cm (let Isabelle know in advance)</span></li>
+            <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Connect to WiFi</span></li>
+          </ul>
+        </div>
+        <div class="warn">📍 Address: <strong>396 chemin des Fourches, 84300 Cavaillon</strong><br>Geolocation: <a href="https://maps.app.goo.gl/A9k8dMHQPVtviXrw6">maps.app.goo.gl/A9k8dMHQPVtviXrw6</a><br>At the gate, look for <strong>"5, Les Puits Neufs"</strong> on the perimeter wall — landmark only, not the postal address.</div>
+      </div>
+
+      <!-- DAILY -->
+      <div class="panel" id="tab-daily">
+        <p class="sec-head">Daily Rhythms</p>
+        <p class="sec-desc">Small rituals to keep the house and pool happy</p>
+        <div class="card">
+          <div class="card-label">Every day</div>
+          <ul class="checklist">
+            <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Empty the two pool skimmers at least once or twice (mandatory for filtration &amp; heating)</span></li>
+            <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Skim pool with landing net; scrub any green algae traces immediately</span></li>
+            <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Close pool cover when leaving if children are present</span></li>
+            <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Activate external alarm at bedtime (key in back kitchen)</span></li>
+            <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Put outdoor cushions under pool awning if rain is forecast</span></li>
+            <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Shower before swimming — no sunscreen in the pool</span></li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-label">Hot weather — air conditioning</div>
+          <ul class="checklist">
+            <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Close shutters and windows during the day</span></li>
+            <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Open them in the evening/night if A/C is off</span></li>
+            <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Minimum A/C setting: 22°C — keep corridor doors closed when running</span></li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-label">Bins &amp; recycling</div>
+          <table class="bin-table">
+            <thead><tr><th>Bin</th><th>Put out</th><th>Collected</th></tr></thead>
+            <tbody>
+              <tr><td>Household waste (brown)</td><td>Wed evening</td><td>Thu morning</td></tr>
+              <tr><td>Yellow bin (plastic, cardboard, cans)</td><td>Mon evening</td><td>Tue morning</td></tr>
+              <tr><td>Glass &amp; newspapers</td><td colspan="2">Drop at containers near Garage Peugeot, Cavaillon</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="warn">🔧 Pool builder visits <strong>Wednesday mornings at 8:00 AM</strong>. Secure any dogs before this time (and on Saturdays).</div>
+      </div>
+
+      <!-- ALARM -->
+      <div class="panel" id="tab-alarm">
+        <p class="sec-head">Alarm Instructions</p>
+        <p class="sec-desc">Two routines — one for leaving, one for bedtime</p>
+        <div class="card">
+          <div class="card-label">Leaving the house — all of you</div>
+          <div class="alarm-step"><span class="step-num">1</span><span>Make sure all cars and people have left the property</span></div>
+          <div class="alarm-step"><span class="step-num">2</span><span>Press <strong>button 2</strong> on the remote → blue LED lights up → you can leave (gate auto-closes in 50 sec)</span></div>
+          <div class="alarm-step"><span class="step-num">3</span><span>On return: press <strong>button 1</strong> first (blue LED disappears), then press <strong>button 2</strong> to open the gate</span></div>
+        </div>
+        <div class="warn">⚠ Opening the gate before disabling the alarm will trigger it. You have <strong>60 seconds</strong> to cancel.</div>
+        <div class="card">
+          <div class="card-label">Going to bed — mandatory every night</div>
+          <div class="alarm-step"><span class="step-num">1</span><span>Find the key box in the <strong>back kitchen</strong></span></div>
+          <div class="alarm-step"><span class="step-num">2</span><span>Insert key for at least <strong>2 seconds without turning</strong> — green light comes on, then remove key</span></div>
+          <div class="alarm-step"><span class="step-num">3</span><span>Morning: same procedure to switch off (green light goes out)</span></div>
+          <div class="alarm-step"><span class="step-num">ℹ</span><span>A flashing red light is normal — ignore it, it clears on its own</span></div>
+        </div>
+        <div class="card">
+          <div class="card-label">Remote monitoring</div>
+          <div style="font-size:13px;line-height:1.6;">If a wrong move triggers a SOTEL call (phone in the living room), give them your alarm code (provided on arrival). <strong>Call Isabelle first</strong> if unsure. Unannounced SOTEL visit costs <strong>€79</strong>.</div>
+        </div>
+      </div>
+
+      <!-- DEPARTURE -->
+      <div class="panel" id="tab-departure">
+        <p class="sec-head">Departure Checklist</p>
+        <p class="sec-desc">Leave it as you found it — the team takes care of the rest</p>
+        <div class="warn">🌿 Gardener arrives <strong>8:00 AM</strong>. Housekeepers at <strong>10:00 AM</strong>.<br>All personal belongings out of rooms by <strong>10:00 AM</strong>.</div>
+        <div class="card">
+          <div class="card-label">Before leaving</div>
+          <ul class="checklist">
+            <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Personal belongings removed from all rooms by 10:00 AM</span></li>
+            <li onclick="tick(this)"><span class="cb"></span><span class="item-text">House clean and tidy; all decor and furniture returned to original positions</span></li>
+            <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Kitchen cleaned — dishes, pots, pans, and utensils washed</span></li>
+            <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Dishwasher emptied</span></li>
+            <li onclick="tick(this)"><span class="cb"></span><span class="item-text">All bins emptied into the correct outdoor containers</span></li>
+            <li onclick="tick(this)"><span class="cb"></span><span class="item-text">BBQ / gas plancha fully cleaned (grill + removable interior parts)</span></li>
+            <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Outdoor cushions stored under the pool awning</span></li>
+            <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Alarm set before leaving</span></li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-label">Potential charges</div>
+          <table class="fine-table">
+            <tr><td>House not left clean/tidy</td><td class="fine-amt">€150</td></tr>
+            <tr><td>BBQ/plancha not cleaned</td><td class="fine-amt">€50</td></tr>
+            <tr><td>SOTEL unannounced visit</td><td class="fine-amt">€79</td></tr>
+            <tr><td>Gate motor damage (pushing doors by hand)</td><td class="fine-amt">~€1,000</td></tr>
+          </table>
+        </div>
+        <div class="warn" style="font-size:12.5px;">💡 Tip: request BBQ/plancha cleaning by the housekeeper — tell Isabelle on arrival, they'll come at 9:00 AM on departure day.</div>
+      </div>
+
     </div>
-    <div class="warn">📍 Address: <strong>396 chemin des Fourches, 84300 Cavaillon</strong><br>Geolocation: <a href="https://maps.app.goo.gl/A9k8dMHQPVtviXrw6" style="color:var(--warning-text);font-weight:500;">maps.app.goo.gl/A9k8dMHQPVtviXrw6</a><br>At the gate, look for <strong>"5, Les Puits Neufs"</strong> on the perimeter wall — this is a landmark marker, not the postal address.</div>
-  </div>
+  </div><!-- /content-pane -->
 
-  <!-- DAILY -->
-  <div class="panel" id="tab-daily">
-    <p class="sec-head">Daily Checklist</p>
-    <div class="card">
-      <div class="card-label">Every day</div>
-      <ul class="checklist">
-        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Empty the two pool skimmers at least once or twice (mandatory for filtration &amp; heating)</span></li>
-        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Skim pool with landing net; scrub any green algae traces immediately</span></li>
-        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Close pool cover when leaving if children are present</span></li>
-        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Activate external alarm at bedtime (key in back kitchen)</span></li>
-        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Put outdoor cushions under pool awning if rain is forecast</span></li>
-        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Shower before swimming — no sunscreen in the pool</span></li>
-      </ul>
-    </div>
-    <div class="card">
-      <div class="card-label">Hot weather — air conditioning</div>
-      <ul class="checklist">
-        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Close shutters and windows during the day</span></li>
-        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Open them in the evening/night if A/C is off</span></li>
-        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Minimum A/C setting: 22°C — keep corridor doors closed when running</span></li>
-      </ul>
-    </div>
-    <div class="card">
-      <div class="card-label">Bins &amp; recycling</div>
-      <table class="bin-table">
-        <thead><tr><th>Bin</th><th>Put out</th><th>Collected</th></tr></thead>
-        <tbody>
-          <tr><td>Household waste (brown)</td><td>Wed evening</td><td>Thu morning</td></tr>
-          <tr><td>Yellow bin (plastic, cardboard, cans)</td><td>Mon evening</td><td>Tue morning</td></tr>
-          <tr><td>Glass &amp; newspapers</td><td colspan="2">Drop at containers near Garage Peugeot, Cavaillon</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="warn">🔧 Pool builder visits <strong>Wednesday mornings at 8:00 AM</strong>. Secure any dogs before this time (and on Saturdays).</div>
-  </div>
+</div><!-- /app -->
 
-  <!-- ALARM -->
-  <div class="panel" id="tab-alarm">
-    <p class="sec-head">Alarm Instructions</p>
-    <div class="card">
-      <div class="card-label">Leaving the house — all of you</div>
-      <div class="alarm-step"><span class="step-num">1</span><span>Make sure all cars and people have left the property</span></div>
-      <div class="alarm-step"><span class="step-num">2</span><span>Press <strong>button 2</strong> on the remote → blue LED lights up → you can leave (gate auto-closes in 50 sec)</span></div>
-      <div class="alarm-step"><span class="step-num">3</span><span>On return: press <strong>button 1</strong> first (blue LED disappears), then press <strong>button 2</strong> to open the gate</span></div>
-    </div>
-    <div class="warn">⚠ Opening the gate before disabling the alarm will trigger it. You have <strong>60 seconds</strong> to cancel.</div>
-    <div class="card">
-      <div class="card-label">Going to bed — mandatory every night</div>
-      <div class="alarm-step"><span class="step-num">1</span><span>Find the key box in the <strong>back kitchen</strong></span></div>
-      <div class="alarm-step"><span class="step-num">2</span><span>Insert key for at least <strong>2 seconds without turning</strong> — green light comes on, then remove key</span></div>
-      <div class="alarm-step"><span class="step-num">3</span><span>Morning: same procedure to switch off (green light goes out)</span></div>
-      <div class="alarm-step"><span class="step-num">i</span><span>A flashing red light is normal — ignore it, it clears on its own</span></div>
-    </div>
-    <div class="card">
-      <div class="card-label">Remote monitoring</div>
-      <div style="font-size:13px;line-height:1.6;">If a wrong move triggers a SOTEL call (phone in the living room), give them your alarm code (provided on arrival). <strong>Call Isabelle first</strong> if unsure. Unannounced SOTEL visit costs <strong>€79</strong>.</div>
-    </div>
-  </div>
-
-  <!-- DEPARTURE -->
-  <div class="panel" id="tab-departure">
-    <p class="sec-head">Departure Checklist</p>
-    <div class="warn">🌿 Gardener arrives <strong>8:00 AM</strong>. Housekeepers at <strong>10:00 AM</strong>.<br>All personal belongings out of rooms by <strong>10:00 AM</strong>.</div>
-    <div class="card">
-      <div class="card-label">Before leaving</div>
-      <ul class="checklist">
-        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Personal belongings removed from all rooms by 10:00 AM</span></li>
-        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">House clean and tidy; all decor and furniture returned to original positions</span></li>
-        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Kitchen cleaned — dishes, pots, pans, and utensils washed</span></li>
-        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Dishwasher emptied</span></li>
-        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">All bins emptied into the correct outdoor containers</span></li>
-        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">BBQ / gas plancha fully cleaned (grill + removable interior parts)</span></li>
-        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Outdoor cushions stored under the pool awning</span></li>
-        <li onclick="tick(this)"><span class="cb"></span><span class="item-text">Alarm set before leaving</span></li>
-      </ul>
-    </div>
-    <div class="card">
-      <div class="card-label">Potential charges</div>
-      <table class="fine-table">
-        <tr><td>House not left clean/tidy</td><td class="fine-amt">€150</td></tr>
-        <tr><td>BBQ/plancha not cleaned</td><td class="fine-amt">€50</td></tr>
-        <tr><td>SOTEL unannounced visit</td><td class="fine-amt">€79</td></tr>
-        <tr><td>Gate motor damage (pushing doors by hand)</td><td class="fine-amt">~€1,000</td></tr>
-      </table>
-    </div>
-    <div class="warn" style="font-size:12px;">💡 Tip: request BBQ/plancha cleaning by the housekeeper — tell Isabelle on arrival and they'll come at 9:00 AM on departure day.</div>
-  </div>
-
-  <div class="footer">
-    <span class="olive">🫒</span>
-    Enjoy your stay — sun, pool, naps, and Provence await.<br>
-    <a href="http://masduluberon.free.fr" style="color:var(--stone);">masduluberon.free.fr</a>
-  </div>
-
-</div>
-
-<script>
-function show(id, btn) {
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('tab-' + id).classList.add('active');
-  btn.classList.add('active');
-}
-function tick(li) {
-  const cb = li.querySelector('.cb');
-  const txt = li.querySelector('.item-text');
-  cb.classList.toggle('done');
-  txt.classList.toggle('done');
-}
-</script>
-
-
-<script>
-// 5 free Unsplash photos: Luberon/Provence landscape, lavender, Gordes, vineyard, ochre
-const bgPhotos = [
-  // Luberon landscape — confirmed Luberon tag on Unsplash
-  'https://images.unsplash.com/photo-1710171369790-28b65f1b5975?auto=format&fit=crop&w=1200&q=70',
-  // Lavender field, Valensole, Provence — Johnny Africa, Unsplash (photo-7N7hlzH_dNM)
-  'https://images.unsplash.com/photo-1499002238440-d264edd596ec?auto=format&fit=crop&w=1200&q=70',
-  // Gordes, Provence — Artur Aldyrkhanov, Unsplash (confirmed Gordes, France caption)
-  'https://images.unsplash.com/photo-1530276371169-6vv00wgdeNQ?auto=format&fit=crop&w=1200&q=70',
-  // Luberon village hillside — Philippe Gras, Unsplash (confirmed Lurs, Luberon)
-  'https://images.unsplash.com/photo-1597984471177-9f01e33fe7f2?auto=format&fit=crop&w=1200&q=70',
-  // Provence lavender — Thomas Despeyroux, Unsplash (confirmed Valensole, Provence)
-  'https://images.unsplash.com/photo-1599940824399-b87987ceb72a?auto=format&fit=crop&w=1200&q=70'
-];
-
-// Preload and set backgrounds
-bgPhotos.forEach((url, i) => {
-  const el = document.getElementById('bg' + i);
-  el.style.backgroundImage = "url('" + url + "')";
-});
-
-let current = 0;
-document.getElementById('bg0').classList.add('visible');
-
-setInterval(() => {
-  document.getElementById('bg' + current).classList.remove('visible');
-  current = (current + 1) % bgPhotos.length;
-  document.getElementById('bg' + current).classList.add('visible');
-}, 6000);
-</script>
-
+<!-- FLOATING ELEMENTS -->
 <div class="credit"><span class="credit-pill">© Prabhu 2025</span></div>
+
+<div class="wa-wrap">
+  <a class="wa-pill" href="https://chat.whatsapp.com/LvWXisQwd1JCwTf0uWUc5O?mode=gi_t" target="_blank">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+  <span class="tooltip">Chat with the group</span>
+</div>
 
 <!-- Chatbase -->
 <script>
 (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="t3slgumb3MMafdX7Qw-Qm";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
 </script>
 
+<script>
+// ── BACKGROUND SLIDESHOW ──
+const bgPhotos = [
+  'http://masduluberon.free.fr/images/20200620_163146.jpg',
+  'https://images.unsplash.com/photo-1597984471177-9f01e33fe7f2?auto=format&fit=crop&w=1600&q=80',
+  'http://masduluberon.free.fr/images/20190831_094611.jpg',
+  'https://images.unsplash.com/photo-1599940824399-b87987ceb72a?auto=format&fit=crop&w=1600&q=80',
+  'http://masduluberon.free.fr/images/20200620_164842.jpg',
+  'http://masduluberon.free.fr/images/20201017_153427.jpg',
+];
 
+bgPhotos.forEach((url, i) => {
+  document.getElementById('bg' + i).style.backgroundImage = "url('" + url + "')";
+});
 
+const dotsWrap = document.getElementById('slideDots');
+bgPhotos.forEach((_, i) => {
+  const d = document.createElement('div');
+  d.className = 'slide-dot' + (i === 0 ? ' active' : '');
+  d.id = 'dot' + i;
+  dotsWrap.appendChild(d);
+});
 
-  <div class="btn-item"><span class="btn-label">Ask AI</span>
-  </div>
-</div>
+let cur = 0;
+document.getElementById('bg0').classList.add('visible');
+setInterval(() => {
+  document.getElementById('bg' + cur).classList.remove('visible');
+  document.getElementById('dot' + cur).classList.remove('active');
+  cur = (cur + 1) % bgPhotos.length;
+  document.getElementById('bg' + cur).classList.add('visible');
+  document.getElementById('dot' + cur).classList.add('active');
+}, 5500);
 
-<div class="tooltip-wrap" style="position:fixed;bottom:20px;right:82px;z-index:997;"><a class="wa-pill" style="position:relative;" href="https://chat.whatsapp.com/LvWXisQwd1JCwTf0uWUc5O?mode=gi_t" target="_blank"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a><span class="tooltip">Chat with the group</span></div>
+// ── TABS ──
+function show(id, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+  document.getElementById('contentPane').scrollTop = 0;
+}
+
+// ── CHECKLIST ──
+function tick(li) {
+  li.querySelector('.cb').classList.toggle('done');
+  li.querySelector('.item-text').classList.toggle('done');
+}
+</script>
 </body>
 </html>
